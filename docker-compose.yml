@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    networks:
+      - frontend_network
+      - backend_network
+    ports:
+      - "3000:3000"
+
+  backend:
+    build:
+      context: ./backend
+    networks:
+      - backend_network
+      - db_network
+    ports:
+      - "5000:5000"
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    networks:
+      - db_network
+    ports:
+      - "5432:5432"
+
+networks:
+  frontend_network:
+  backend_network:
+  db_network:
